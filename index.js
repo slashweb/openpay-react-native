@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import { WebView } from 'react-native-webview';
 import {Button} from 'react-native-elements';
 import { CreditCardInput } from 'react-native-credit-card-input';
