@@ -29,7 +29,8 @@
   "license": "MIT",
   "dependencies": {
     "buffer": "^5.2.0",
-    "react-native-credit-card-input-fullpage": "https://github.com/fedebalderas/react-native-credit-card-input-fullpage",
+    "react-native-credit-card-input": "^0.4.1",
+    "react-native-credit-card-input-fullpage": "^0.2.0",
     "react-native-device-info": "^0.22.2",
     "react-native-elements": "^0.19.1",
     "react-native-webview": "^10.3.1",

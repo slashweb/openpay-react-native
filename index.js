@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import { WebView } from 'react-native-webview';
 import {Button} from 'react-native-elements';
-import { CreditCardInput } from 'react-native-credit-card-input-fullpage';
+import { CreditCardInput } from 'react-native-credit-card-input';
 import uuidv4 from 'uuid/v4';
 import DeviceInfo from 'react-native-device-info';
 import sprintfJs from 'sprintf-js';
@@ -173,14 +173,14 @@ export default class Openpay extends Component {
 
     render() {
         const labels = {
-            name: "Full Name",
-            number: "Number",
-            expiry: "Expiration Date",
-            cvc: "Security Code"
+            name: "Nombre completo",
+            number: "Número",
+            expiry: "Fecha de expiración",
+            cvc: "Código de seguridad"
         };
 
         const placeholders = {
-            name: "Holder's Name",
+            name: "Nombre del propietario",
             number: "**** **** **** ****",
             expiry: "MM/YY",
             cvc: "CVV"
@@ -194,7 +194,7 @@ export default class Openpay extends Component {
                 <Button                            
                     onPress={this.tokenize}
                     buttonStyle={styles.button}
-                    title={this.props.buttonText ? this.props.buttonText : 'Pay Now'}
+                    title={this.props.buttonText ? this.props.buttonText : 'Guardar'}
                     loading={loading}                                   
                 />                
                 <WebView
