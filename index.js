@@ -197,6 +197,7 @@ export default class Openpay extends Component {
                     title={this.props.buttonText ? this.props.buttonText : 'Guardar'}
                     loading={loading}                                   
                 />                
+                <Text>Prueba</Text>
                 <WebView
                     source={{uri: uri}}   
                     injectedJavaScript={injectedJavaScript}                        
