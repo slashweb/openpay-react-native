@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import { WebView } from 'react-native-webview';
 import {Button} from 'react-native-elements';
-import { CreditCardInput } from 'react-native-credit-card-input';
+import { CreditCardInput, LiteCreditCardInput } from 'react-native-credit-card-input';
 import uuidv4 from 'uuid/v4';
 import DeviceInfo from 'react-native-device-info';
 import sprintfJs from 'sprintf-js';
@@ -190,18 +190,17 @@ export default class Openpay extends Component {
 
         return (                                        
             <View style={styles.container}>                                                                     
-                <CreditCardInput onChange={this.handleCreditCardInputs} requiresName={true} labels={labels} placeholders={placeholders} inputStyle={styles.inputStyle} />            
+                <LiteCreditCardInput onChange={this.handleCreditCardInputs} labels={labels} placeholders={placeholders} inputStyle={styles.inputStyle} />            
                 <Button                            
                     onPress={this.tokenize}
                     buttonStyle={styles.button}
                     title={this.props.buttonText ? this.props.buttonText : 'Guardar'}
                     loading={loading}                                   
                 />                
-                <Text>Prueba</Text>
-                <WebView
+                {/* <WebView
                     source={{uri: uri}}   
                     injectedJavaScript={injectedJavaScript}                        
-                /> 
+                />  */}
             </View>                                
         );
     }
