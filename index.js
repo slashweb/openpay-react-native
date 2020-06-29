@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import { WebView } from 'react-native-webview';
 import {Button} from 'react-native-elements';
-import { CreditCardInput, LiteCreditCardInput } from 'react-native-credit-card-input';
+import { CreditCardInput } from 'react-native-credit-card-input';
 import uuidv4 from 'uuid/v4';
 import DeviceInfo from 'react-native-device-info';
 import sprintfJs from 'sprintf-js';
@@ -14,7 +14,7 @@ sessionId = sessionId.toUpperCase().replace(/-/g, '');
 
 export const createDeviceSessionId = () => {
     return sessionId;
-} 
+}
 
 export default class Openpay extends Component {
     constructor(props) {
@@ -22,7 +22,7 @@ export default class Openpay extends Component {
 
         if (!this.validateProps(props)) {
             throw new Error('Openpay component requires all the specified props.');
-        }        
+        }
 
         this.API_URL_SANDBOX = "https://sandbox-api.openpay.mx";
         this.API_URL_PRODUCTION = "https://api.openpay.mx";
@@ -36,12 +36,12 @@ export default class Openpay extends Component {
     }
 
     componentDidMount() {
-        this.createDeviceSessionId();        
+        this.createDeviceSessionId();
     }
 
-    // componentWillReceiveProps(nextProps) {        
-    //     this.setState(() => ({loading: nextProps.loading}));
-    // }
+    componentWillReceiveProps(nextProps) {
+        this.setState(() => ({loading: nextProps.loading}));
+    }
 
     validateProps = (props) => {
         // Se valida que existan las propiedad requeridas
@@ -77,13 +77,13 @@ export default class Openpay extends Component {
         return true;
     }
 
-    createDeviceSessionId = () => {        
-        let identifierForVendor = this.identifierForVendor(); 
-        identifierForVendor = identifierForVendor.replace(/-/g, '');       
-        
-        const uri = vsprintf('%s/oa/logo.htm?m=%s&s=%s', [this.props.isProductionMode ? this.API_URL_PRODUCTION : this.API_URL_SANDBOX, this.props.merchantId, sessionId]);        
-        const injectedJavaScript = vsprintf('var identifierForVendor = "%s";', [identifierForVendor]);        
-        
+    createDeviceSessionId = () => {
+        let identifierForVendor = this.identifierForVendor();
+        identifierForVendor = identifierForVendor.replace(/-/g, '');
+
+        const uri = vsprintf('%s/oa/logo.htm?m=%s&s=%s', [this.props.isProductionMode ? this.API_URL_PRODUCTION : this.API_URL_SANDBOX, this.props.merchantId, sessionId]);
+        const injectedJavaScript = vsprintf('var identifierForVendor = "%s";', [identifierForVendor]);
+
         this.setState(() => ({uri, injectedJavaScript}));
 
         return sessionId;
@@ -98,23 +98,23 @@ export default class Openpay extends Component {
             requestData.address = this.props.address;
         }
 
-        const response = await this.sendFunction(method, resource, requestData);        
-        return response;        
+        const response = await this.sendFunction(method, resource, requestData);
+        return response;
     }
 
     sendFunction = (method, resource, data) => {
         const username = this.props.publicKey;
         const url = vsprintf("%s/v1/%s/%s", [this.props.isProductionMode ? this.API_URL_PRODUCTION : this.API_URL_SANDBOX, this.props.merchantId, resource]);
-        const authorization = 'Basic ' + new Buffer(username + ':').toString('base64');                
+        const authorization = 'Basic ' + new Buffer(username + ':').toString('base64');
 
         return fetch(url, {
             method: method,
-            mode: "no-cors", 
-            cache: "no-cache",            
+            mode: "no-cors",
+            cache: "no-cache",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": authorization,
-            },                 
+            },
             body: JSON.stringify(data)
         })
         .then(response => response.json()) // parses response to JSON
@@ -126,29 +126,29 @@ export default class Openpay extends Component {
         let deviceSerial = '';
         try {
             if (Expo.Constants.appOwnership === 'expo') {
-                console.log('Running in expo');                                
+                console.log('Running in expo');
                 deviceSerial = typeof Expo.Constants.installationId !== 'undefined' ? Expo.Constants.installationId : Expo.Constants.deviceId;
-            } else {                
+            } else {
                 deviceSerial = DeviceInfo.getUniqueID();
-            }            
+            }
         } catch (e) {
-            console.log('error reading device ID', e);            
+            console.log('error reading device ID', e);
         }
 
         return deviceSerial;
     }
 
     tokenize = async() => {
-        console.log('******** tokenize ******');                
-        const cardForm = this.state.form;        
+        console.log('******** tokenize ******');
+        const cardForm = this.state.form;
 
         if (!cardForm.valid) {
-            this.props.failToken(cardForm.status);            
-            return;                   
-        } 
+            this.props.failToken(cardForm.status);
+            return;
+        }
 
         this.setState(() => ({loading: true}));
-        
+
         const card = cardForm.values;
         const expirationDate = card.expiry.split('/');
         const requestData = {
@@ -157,17 +157,17 @@ export default class Openpay extends Component {
             cvv2: card.cvc,
             expiration_month: expirationDate[0],
             expiration_year: expirationDate[1]
-        };            
+        };
 
         try {
-            const response = await this.createTokenWithCard(requestData);                                        
-            this.props.successToken(response);            
-        } catch (error) {            
-            this.props.failToken(error);                        
-        }                        
+            const response = await this.createTokenWithCard(requestData);
+            this.props.successToken(response);
+        } catch (error) {
+            this.props.failToken(error);
+        }
     }
 
-    handleCreditCardInputs = (form) => {        
+    handleCreditCardInputs = (form) => {
         this.setState(() => ({form}));
     }
 
@@ -175,7 +175,7 @@ export default class Openpay extends Component {
         const labels = {
             name: "Nombre completo",
             number: "Número",
-            expiry: "Fecha de expiración",
+            expiry: "Expiración",
             cvc: "Código de seguridad"
         };
 
@@ -186,23 +186,23 @@ export default class Openpay extends Component {
             cvc: "CVV"
         };
 
-        const {uri, injectedJavaScript, loading} = this.state;        
+        const {uri, injectedJavaScript, loading} = this.state;
 
-        return (                                        
-            <View style={styles.container}>                                                                     
-                <LiteCreditCardInput onChange={this.handleCreditCardInputs} labels={labels} placeholders={placeholders} inputStyle={styles.inputStyle} />            
-                <Button                            
-                    onPress={this.tokenize}
-                    buttonStyle={styles.button}
-                    title={this.props.buttonText ? this.props.buttonText : 'Guardar'}
-                    loading={loading}                                   
-                />         
-                <Text>Testeando here</Text>       
+        return (
+            <View style={{ paddingVertical: 50}}>
+                <CreditCardInput requiresName={true} onChange={this.handleCreditCardInputs} labels={labels} placeholders={placeholders} />
+                <Button
+                  onPress={this.tokenize}
+                  buttonStyle={styles.button}
+                  title={this.props.buttonText ? this.props.buttonText : 'Guardar'}
+                  loading={loading}
+                />
+
                 <WebView
-                    source={{uri: uri}}   
-                    injectedJavaScript={injectedJavaScript}                        
-                /> 
-            </View>                                
+                    source={{uri: uri}}
+                    injectedJavaScript={injectedJavaScript}
+                />
+            </View>
         );
     }
 }
@@ -212,11 +212,12 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     container: {
-        justifyContent: 'center',
+        // justifyContent: 'center',
         marginTop: 50,
         padding: 20,
-        backgroundColor: '#ffffff',
-        flex: 1
+        backgroundColor: '#000',
+        flex: 1,
+        height: 500
     },
     button: {
         height: 45,
@@ -224,9 +225,9 @@ const styles = StyleSheet.create({
         borderColor: '#48BBEC',
         borderWidth: 1,
         borderRadius: 8,
-        marginBottom: 5,        
-        justifyContent: 'center',        
-        marginTop: 30, 
+        marginBottom: 5,
+        justifyContent: 'center',
+        marginTop: 30,
         padding: 5
     }
 });
