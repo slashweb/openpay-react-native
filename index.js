@@ -39,9 +39,9 @@ export default class Openpay extends Component {
         this.createDeviceSessionId();        
     }
 
-    componentWillReceiveProps(nextProps) {        
-        this.setState(() => ({loading: nextProps.loading}));
-    }
+    // componentWillReceiveProps(nextProps) {        
+    //     this.setState(() => ({loading: nextProps.loading}));
+    // }
 
     validateProps = (props) => {
         // Se valida que existan las propiedad requeridas
