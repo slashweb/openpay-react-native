@@ -176,7 +176,7 @@ export default class Openpay extends Component {
             name: "Nombre completo",
             number: "Número",
             expiry: "Expiración",
-            cvc: "Código de seguridad"
+            cvc: "Código"
         };
 
         const placeholders = {
@@ -189,12 +189,18 @@ export default class Openpay extends Component {
         const {uri, injectedJavaScript, loading} = this.state;
 
         return (
-            <View style={{ paddingVertical: 50}}>
-                <CreditCardInput requiresName={true} onChange={this.handleCreditCardInputs} labels={labels} placeholders={placeholders} />
+            <View style={{ paddingTop: 20 }}>
+                <CreditCardInput    requiresName={true} 
+                                    onChange={this.handleCreditCardInputs} 
+                                    labels={labels} 
+                                    placeholders={placeholders}
+                />
                 <Button
                   onPress={this.tokenize}
                   buttonStyle={styles.button}
+                  textStyle={{fontFamily: 'BebasNeueBold', fontSize: 18}}
                   title={this.props.buttonText ? this.props.buttonText : 'Guardar'}
+                  disabled={loading}
                   loading={loading}
                 />
 
@@ -212,7 +218,6 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     container: {
-        // justifyContent: 'center',
         marginTop: 50,
         padding: 20,
         backgroundColor: '#000',
@@ -221,14 +226,11 @@ const styles = StyleSheet.create({
     },
     button: {
         height: 45,
-        backgroundColor: '#48BBEC',
-        borderColor: '#48BBEC',
-        borderWidth: 1,
-        borderRadius: 8,
-        marginBottom: 5,
+        backgroundColor: '#B4214B',
+        borderRadius: 30,
         justifyContent: 'center',
         marginTop: 30,
-        padding: 5
+        // fontFamily: 'BebasNeueBold'
     }
 });
 
