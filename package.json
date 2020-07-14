@@ -29,7 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "buffer": "^5.2.0",
-    "react-native-credit-card-input": "^0.4.1",
+    "react-native-credit-card-input": "git+https://github.com/slashweb/react-native-credit-card-input.git",
     "react-native-credit-card-input-fullpage": "^0.2.0",
     "react-native-device-info": "^0.22.2",
     "react-native-elements": "^0.19.1",
